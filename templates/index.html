@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grade Calculator</title>
+    <script>
+        // Function to add a new component input section
+        function addComponent() {
+            const componentsDiv = document.getElementById('components');
+
+            const newCompDiv = document.createElement('div');
+            newCompDiv.className = 'component';
+
+            newCompDiv.innerHTML = `
+                <input type="text" placeholder="Component Name" name="componentName">
+                Weight: <input type="number" placeholder="Weight" name="weight">
+                Average: <input type="number" placeholder="Average" name="average">
+                Std Dev: <input type="number" placeholder="Std Dev" name="stdDev"><br>
+            `;
+            componentsDiv.appendChild(newCompDiv);
+        }
+
+        // Function to send data to Flask and receive results
+        function calculate() {
+            const componentElements = document.getElementsByClassName('component');
+            const components = {};
+            const studentScores = {};
+
+            for (const elem of componentElements) {
+                const name = elem.querySelector('[name="componentName"]').value;
+                const weight = parseFloat(elem.querySelector('[name="weight"]').value);
+                const average = parseFloat(elem.querySelector('[name="average"]').value);
+                const stdDev = parseFloat(elem.querySelector('[name="stdDev"]').value);
+                const score = parseFloat(elem.querySelector('[name="score"]').value);
+
+                components[name] = { weight, average, stdDev };
+                studentScores[name] = score;
+            }
+
+            fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ components, studentScores })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('results').innerHTML = `
+                    <img src="data:image/png;base64,${data.plot_url}">
+                    <p>Percentile: ${data.percentile}</p>
+                `;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Initial call to add the first component
+        window.onload = addComponent;
+    </script>
+</head>
+<body>
+    <h1>Grade Calculator</h1>
+
+    <h2>Components</h2>
+    <div id="components">
+        <!-- Component fields will be added here -->
+    </div>
+    <button type="button" onclick="addComponent()">Add Component</button>
+
+    <button type="button" onclick="calculate()">Calculate</button>
+
+    <div id="results">
+        <!-- Results will be displayed here -->
+    </div>
+
+    <script>
+        // Function to add a new component input section
+        function addComponent() {
+            const componentsDiv = document.getElementById('components');
+
+            const newCompDiv = document.createElement('div');
+            newCompDiv.className = 'component';
+
+            newCompDiv.innerHTML = `
+                <input type="text" placeholder="Component Name" name="componentName" required>
+                Weight: <input type="number" placeholder="Weight" name="weight" required>
+                Average: <input type="number" placeholder="Average" name="average" required>
+                Std Dev: <input type="number" placeholder="Std Dev" name="stdDev" required>
+                Score: <input type="number" placeholder="Your Score" name="score" required><br>
+            `;
+            componentsDiv.appendChild(newCompDiv);
+        }
+
+        // Function to send data to Flask and receive results
+        function calculate() {
+            const componentElements = document.getElementsByClassName('component');
+            const components = {};
+            const studentScores = {};
+
+            for (const elem of componentElements) {
+                const name = elem.querySelector('[name="componentName"]').value;
+                const weight = parseFloat(elem.querySelector('[name="weight"]').value);
+                const average = parseFloat(elem.querySelector('[name="average"]').value);
+                const stdDev = parseFloat(elem.querySelector('[name="stdDev"]').value);
+                const score = parseFloat(elem.querySelector('[name="score"]').value);
+
+                components[name] = { weight, average, stdDev };
+                studentScores[name] = score;
+            }
+
+            fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ components, studentScores })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('results').innerHTML = `
+                    <img src="data:image/png;base64,${data.plot_url}">
+                    <p>Percentile: ${data.percentile}</p>
+                `;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Initial call to add the first component
+        window.onload = addComponent;
+    </script>
+</body>
+</html>
