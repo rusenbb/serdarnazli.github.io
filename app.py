@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 import io
 import base64
+import matplotlib
+matplotlib.use('Agg')  # Use Agg backend to avoid GUI errors
 import matplotlib.pyplot as plt
 from scipy.stats import t
 import numpy as np
