@@ -58,7 +58,7 @@ def calculate():
         img.seek(0)
         plot_url = base64.b64encode(img.getvalue()).decode()
         
-        return jsonify({'plot_url': plot_url, 'percentile': percentile})
+        return jsonify({'plot_url': plot_url, 'percentile': 1-percentile})
     except KeyError as e:
         print("KeyError:", e)
         return jsonify({'error': f"KeyError: {e}"})
