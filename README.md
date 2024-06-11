@@ -10,7 +10,7 @@ The application allows users to input scores for different graded components alo
 
 The Student Grade Calculator can be accessed directly through its GitHub Pages URL. Simply visit the following link to start using the application:
 
-[Student Grade Calculator](<GitHub Pages URL here>)
+[Student Grade Calculator](https://rusenbb.pythonanywhere.com/)
 
 ## Using the Application
 
